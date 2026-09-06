@@ -1,0 +1,17 @@
+{
+  "name": "3d-room",
+  "version": "1.0.0",
+  "description": "简易 3D 房间 - 作品集",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
+  }
+}

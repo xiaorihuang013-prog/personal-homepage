@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>创作工作室 · 我的作品集</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <!-- Three.js 画布会由脚本动态加入 -->
+  <div id="app"></div>
+
+  <!-- 顶部：名字 + 简介 -->
+  <header id="hero" class="hero">
+    <h1 id="profile-name">你的名字</h1>
+    <p id="profile-tagline">加载中…</p>
+  </header>
+
+  <!-- 右上角：作品链接入口 -->
+  <nav id="links" class="links"></nav>
+
+  <!-- 底部：交互提示 -->
+  <div class="hint">按住鼠标左键环绕 · 滚轮缩放 · 点击发光物件探索工作室</div>
+  <button id="reset-view" class="reset-view" type="button">重置视角</button>
+
+  <!-- 2D 卡片弹层（由脚本动态填充） -->
+  <div id="overlay" class="overlay" hidden></div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
