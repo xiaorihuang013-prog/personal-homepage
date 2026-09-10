@@ -1,6 +1,7 @@
 import { t, onLanguage } from "./language.js";
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+import { track } from "./loading.js";
 
 
 function box(w, h, d, material, position = [0, 0, 0], radius = .025) {
@@ -47,7 +48,9 @@ function desktopTexture() {
   map = new THREE.CanvasTexture(canvas);
   map.colorSpace = THREE.SRGBColorSpace;
   avatar=new Image();
-  avatar.onload=drawDesktop;
+  const avatarDone=track();
+  avatar.onload=()=>{ drawDesktop(); avatarDone(); };
+  avatar.onerror=()=>avatarDone();
   onLanguage(drawDesktop);
   avatar.src=`${import.meta.env.BASE_URL}images/8suns-avatar.png`;
   return map;

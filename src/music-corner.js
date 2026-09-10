@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
+import { track } from './loading.js';
 
 const material = (color, roughness = .6, metalness = 0) => new THREE.MeshStandardMaterial({ color, roughness, metalness });
 function mesh(geometry, mat, position = [0,0,0]) {
@@ -34,7 +35,8 @@ export function createPosters(scene, renderer) {
     const w=h*ratios[posterId-1];
     const poster=new THREE.Group();poster.name=`poster-${posterId}`;poster.userData.id=`film-${i}`;
     poster.add(box(w+.022,h+.022,.009,paper,[0,0,0]));
-    const map=loader.load(`${import.meta.env.BASE_URL}posters/poster-${posterId}.png`);
+    const posterDone=track();
+    const map=loader.load(`${import.meta.env.BASE_URL}posters/poster-${posterId}.png`,posterDone,undefined,posterDone);
     map.colorSpace=THREE.SRGBColorSpace;
     map.anisotropy=renderer.capabilities.getMaxAnisotropy();
     const image=mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshStandardMaterial({map,roughness:.95}),[0,0,.006]);

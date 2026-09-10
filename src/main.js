@@ -11,6 +11,7 @@ import { createScene, resizeRenderer } from "./scene.js";
 import { createFurniture } from "./furniture.js";
 import { setupInteractions } from "./interactions.js";
 import { profile, cards } from "./content.js";
+import { whenReady } from "./loading.js";
 
 const languageButton=document.getElementById('language-toggle');
 languageButton.addEventListener('click',toggleLanguage);
@@ -33,6 +34,18 @@ interactive.push(guestbook.board);
 createPlant(scene);
 const { lamp: floorLamp, toggleFloorLamp } = createMusicCorner(scene, renderer);
 interactive.push(floorLamp);
+
+// ---------- 2.5 加载封面：素材全部就绪后淡出 ----------
+function hideLoading() {
+  const el = document.getElementById("loading");
+  if (!el) return;
+  el.classList.add("done");
+  el.addEventListener("transitionend", () => el.remove(), { once: true });
+  setTimeout(() => el.remove(), 700); // 过渡未触发时兜底移除
+}
+whenReady(hideLoading);
+// 兜底：极端网络卡死时也保证 15s 后进入房间
+setTimeout(hideLoading, 15000);
 
 // ---------- 3. 2D 卡片（弹层） ----------
 const overlay = document.getElementById("overlay");
