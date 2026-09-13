@@ -2,6 +2,7 @@ import { t, onLanguage } from "./language.js";
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { track } from "./loading.js";
+import { createShelfPlant } from "./shelf-plant.js";
 
 
 function box(w, h, d, material, position = [0, 0, 0], radius = .025) {
@@ -193,7 +194,7 @@ function notebookAndCoffee() {
   group.add(journal);
   const ceramic=new THREE.MeshPhysicalMaterial({color:0x151719,roughness:.28,clearcoat:.25});
   const profile=[[.0,0],[.067,0],[.078,.018],[.082,.15],[.073,.153],[.067,.03],[0,.026]].map(p=>new THREE.Vector2(...p));
-  const cup=new THREE.Group();cup.position.set(1.03,1.421,-1.85);
+  const cup=new THREE.Group();cup.position.set(.33,1.421,-1.78);
   const vessel=new THREE.Mesh(new THREE.LatheGeometry(profile,64),ceramic);vessel.castShadow=true;cup.add(vessel);
   const handle=new THREE.Mesh(new THREE.TorusGeometry(.044,.012,12,40),ceramic);handle.position.set(.09,.087,0);cup.add(handle);
   const coffee=new THREE.Mesh(new THREE.CircleGeometry(.071,64),new THREE.MeshPhysicalMaterial({color:0x6e4225,roughness:.2,clearcoat:.45}));coffee.rotation.x=-Math.PI/2;coffee.position.y=.135;cup.add(coffee);
@@ -202,6 +203,7 @@ function notebookAndCoffee() {
 
 function bookshelf(wood) {
   const group = new THREE.Group();
+  group.add(createShelfPlant());
   group.name = "Wall-mounted floating shelves";
   const walnut = wood.clone();
   walnut.color.setHex(0x98765c);

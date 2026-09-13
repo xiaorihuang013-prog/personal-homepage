@@ -1,5 +1,6 @@
-import { t, onLanguage } from "./language.js";
+import { t, onLanguage, isEnglish } from "./language.js";
 import * as THREE from 'three';
+import { track } from './loading.js';
 
 export function createGuestbook(scene, camera, renderer) {
   const board = new THREE.Group();
@@ -13,15 +14,27 @@ export function createGuestbook(scene, camera, renderer) {
   const canvas=document.createElement('canvas');canvas.width=2560;canvas.height=1100;
   let texture;
   const c=canvas.getContext('2d');
+  // Chinese lettering is baked into this image, independent of visitor fonts.
+  const chineseBoard = new Image();
+  const finishBoard = track();
+  chineseBoard.onload = () => { drawBoard(); finishBoard(); };
+  chineseBoard.onerror = () => { console.warn('Chinese guestbook texture could not load'); finishBoard(); };
+  chineseBoard.src = `${import.meta.env.BASE_URL}textures/guestbook-zh.png`;
   function drawBoard(){c.fillStyle='#f3efe3';c.fillRect(0,0,2560,1100);
   const handwriting='"Hannotate SC", "HanziPen SC", "Chalkboard SE", sans-serif';
-  c.fillStyle='#735047';c.font=`bold 140px ${handwriting}`;
-  c.fillText(t("嘿，欢迎来到", "Hey, welcome to"),165,260);c.font=`bold 180px ${handwriting}`;
-  c.fillText(t("八日的房间！", "8suns' room!"),165,475);
+  c.fillStyle='#735047';
+  const welcome = t('嘿，欢迎来到八日的房间！', "Hey, welcome to 8suns' room!");
+  c.font=`bold 140px ${handwriting}`;
+  const welcomeSize = Math.min(140, 140 * 2070 / c.measureText(welcome).width);
+  c.font=`bold ${welcomeSize}px ${handwriting}`;
+  c.fillText(welcome,165,450);
   c.strokeStyle='#b89564';c.lineWidth=9;c.beginPath();c.moveTo(170,535);c.quadraticCurveTo(920,505,2030,540);c.stroke();
   c.fillStyle='#735047';c.font=`92px ${handwriting}`;
   c.fillText(t('点击记号笔，为我留言。','Click the marker to leave me a note.'),165,850);
   c.strokeStyle='#735047';c.fillStyle='#735047';c.lineWidth=9;
+  if (!isEnglish() && chineseBoard.complete && chineseBoard.naturalWidth) {
+    c.drawImage(chineseBoard, 0, 0, canvas.width, canvas.height);
+  }
   if(texture)texture.needsUpdate=true;
   }
   onLanguage(drawBoard);

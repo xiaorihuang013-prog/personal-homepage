@@ -1,3 +1,4 @@
+import { createPhotoAlbums } from "./photo-albums.js";
 import { t, isEnglish, toggleLanguage, onLanguage } from "./language.js";
 import * as THREE from "three";
 import { createGuestbook } from "./guestbook.js";
@@ -32,8 +33,11 @@ interactive.push(...createPosters(scene, renderer));
 const guestbook = createGuestbook(scene, camera, renderer);
 interactive.push(guestbook.board);
 createPlant(scene);
-const { lamp: floorLamp, toggleFloorLamp } = createMusicCorner(scene, renderer);
-interactive.push(floorLamp);
+const bassAudio = new Audio(`${import.meta.env.BASE_URL}audio/bass-fill.mp3`);
+bassAudio.preload = "auto";
+bassAudio.volume = .65;
+const { lamp: floorLamp, bass, toggleFloorLamp } = createMusicCorner(scene, renderer);
+interactive.push(floorLamp, bass);
 
 // ---------- 2.5 加载封面：素材全部就绪后淡出 ----------
 function hideLoading() {
@@ -74,6 +78,48 @@ function buildCard(id) {
   header.append(titleWrap, close);
   section.appendChild(header);
 
+  if (data.type === 'projects') {
+    section.classList.add('projects-card');
+    data.items.forEach(project => {
+      const article = document.createElement('article');
+      article.className = 'project-entry';
+      const top = document.createElement('div');
+      top.className = 'project-overview';
+      const name = document.createElement('h3');
+      name.textContent = project.name;
+      const images = document.createElement('div');
+      images.className = 'project-images';
+      project.images.forEach(item => {
+        const image = document.createElement('img');
+        image.src = `${import.meta.env.BASE_URL}${item.src.replace(/^\//, "")}`;
+        image.alt = t(item.alt, item.altEn);
+        image.decoding = 'async';
+        images.append(image);
+      });
+      top.append(name, images);
+      const divider = document.createElement('hr');
+      const description = document.createElement('p');
+      description.className = 'project-description';
+      if (isEnglish()) description.textContent = project.descriptionEn;
+      else {
+        const lead = document.createElement('strong');
+        lead.textContent = project.lead;
+        description.append(lead, document.createTextNode(project.description));
+      }
+      const link = document.createElement('a');
+      link.className = 'project-github';
+      link.textContent = '→ GitHub';
+      link.href = project.url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      article.append(top, divider, description, link);
+      section.append(article);
+    });
+  }
+  if (data.type === 'albums') {
+    section.classList.add('photography-card');
+    section.append(createPhotoAlbums(data.albums));
+  }
   if(data.type === 'film') {
     section.classList.add('film-card');
     const layout=document.createElement('div');layout.className='film-layout';
@@ -141,6 +187,7 @@ let activeCard=null;
 window.addEventListener("languagechange",()=>{if(activeCard)openCard(activeCard);});
 function openCard(id) {
   activeCard=id;
+  overlay.querySelector(".photo-albums")?.dispose();
   overlay.innerHTML = "";
   overlay.appendChild(buildCard(id));
   overlay.hidden = false;
@@ -151,6 +198,7 @@ function closeCard() {
   activeCard=null;
   overlay.classList.remove("open");
   overlay.hidden = true;
+  overlay.querySelector(".photo-albums")?.dispose();
   overlay.innerHTML = "";
 }
 
@@ -173,11 +221,15 @@ const { controls, resetView } = setupInteractions({
   interactive,
   onHover(object) { outline.selectedObjects=object?[object]:[]; },
   onSelect(id) {
-    if (id === "lamp") {deskLampOn=toggleLamp();setNightMode(deskLampOn||floorLampOn);}
+    if (id === "bass") {
+      bassAudio.currentTime = 0;
+      bassAudio.play().catch(error => console.warn("Bass audio playback failed", error));
+    }
+    else if (id === "lamp") {deskLampOn=toggleLamp();setNightMode(deskLampOn||floorLampOn);}
     else if (id === "floorLamp") {floorLampOn=toggleFloorLamp();setNightMode(deskLampOn||floorLampOn);}
     else if (id === "chair") toggleChair();
     else if (id === "computer") return;
-    else if (id === "resume") window.open("https://xiaorihuang013-prog.github.io/xiaoyuehuang_portfolio/", "_blank", "noopener,noreferrer");
+    else if (id === "resume") openCard("resume");
     else if (id === "guestbookMarker") guestbook.start();
     else if (cards[id]) openCard(id);
   },

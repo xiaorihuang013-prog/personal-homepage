@@ -69,3 +69,38 @@ body.night-mode { --ink:#dfe4ed; --soft:#9ca6b7; --line:rgba(210,220,240,.2); }
 .loading-text { font-family:ui-monospace,"SFMono-Regular","Cascadia Code",monospace; font-size:14px; letter-spacing:.18em; animation:loading-blink 1.4s ease-in-out infinite; }
 @keyframes loading-blink { 0%,100% { opacity:1; } 50% { opacity:.35; } }
 
+
+.photography-card {width:min(1020px,94vw);max-height:90vh;padding:32px 34px;background:#f3f0e9;overflow:hidden}
+.photography-card .subtitle:empty {display:none}
+.photography-card h2 {font-weight:500;letter-spacing:.09em}
+.album-toolbar {height:58px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:11px;color:#85847c}
+.album-toolbar button {background:none;border:0;padding:8px 0;color:#53574d;cursor:pointer;font:inherit;font-size:12px}
+.album-toolbar button[hidden] {display:none}
+.album-toolbar span {margin-left:auto}
+.album-viewport {overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;touch-action:pan-x;user-select:none;-webkit-user-select:none}
+.album-viewport::-webkit-scrollbar {display:none}
+.album-stage {position:relative;transition:height .65s cubic-bezier(.22,1,.36,1)}
+.album-photo {position:absolute;left:0;top:0;display:block;object-fit:cover;border:0;border-radius:10px;box-shadow:0 5px 14px #22251c20;cursor:pointer;transition:transform .75s cubic-bezier(.22,1,.36,1),width .75s cubic-bezier(.22,1,.36,1),height .75s cubic-bezier(.22,1,.36,1),opacity .3s;will-change:transform}
+.album-label {position:absolute;left:0;top:0;border:0;background:none;color:#454a40;cursor:pointer;font:inherit;font-size:14px;letter-spacing:.09em;padding:8px 0;transition:opacity .2s}
+.album-label:hover {color:#1c2417}
+.is-expanded .album-photo {object-fit:contain;border-radius:0;box-shadow:none;cursor:grab}
+.is-expanded .album-viewport {cursor:grab}
+.album-viewport.is-dragging,.is-dragging .album-photo {cursor:grabbing}
+.album-label:focus-visible,.album-toolbar button:focus-visible,.album-viewport:focus-visible {outline:2px solid #718164;outline-offset:-2px}
+@media(max-width:600px){.photography-card{padding:22px 14px}.photography-card h2{font-size:19px}.album-label{font-size:12px;letter-spacing:0}.album-toolbar{height:52px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.album-photo,.album-stage,.album-label{transition:none}}
+
+.projects-card {width:min(820px,94vw);padding:30px;background:#f5f2ec}
+.projects-card .subtitle:empty {display:none}
+.project-entry {margin-top:28px}
+.project-overview {display:flex;align-items:center;justify-content:space-between;gap:28px}
+.project-overview h3 {font-size:25px;font-weight:600;letter-spacing:-.025em;flex-shrink:0}
+.project-images {display:flex;align-items:center;justify-content:flex-end;gap:16px;min-width:0}
+.project-images img {display:block;width:min(17vw,150px);height:auto;object-fit:contain}
+.project-entry hr {border:0;border-top:1px solid #d2cfc5;margin:26px 0 22px}
+.project-description {font-size:14px;line-height:1.9;color:#555950}
+.project-description strong {font-weight:600;color:#30372c}
+.project-github {display:inline-block;margin-top:18px;color:#485b39;font-size:14px;text-decoration:none;padding:5px 0}
+.project-github:hover {text-decoration:underline;text-underline-offset:4px}
+@media(max-width:540px){.projects-card{padding:22px 18px}.project-overview{gap:12px}.project-overview h3{font-size:19px}.project-images{gap:8px}.project-images img{width:19vw}.project-description{font-size:13px}}
+

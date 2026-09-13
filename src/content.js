@@ -19,8 +19,29 @@ export const profile = {
 //   "gallery"  -> 照片墙（先用色块占位，可换成真实图片 src）
 //   "text"     -> 一段文字（关于我）
 export const cards = {
-  photography: {title:"八日的摄影集", titleEn:"8suns’ Photography", subtitle:"", type:"text", text:"摄影作品正在整理中，敬请期待。", textEn:"My photo collection is coming soon."},
-  aiProjects: { title: "AI 项目（学习中...）", titleEn: "AI projects (learning...)", textEn: "My AI experiments will appear here. Photos and notes are coming soon.", subtitle: "八日的实验", subtitleEn: "8suns’ experiments", type: "text", text: "这里将放置我的 AI 学习项目，照片和文字正在整理中。" },
+  resume: { title: "电子简历", titleEn: "Résumé", subtitle: "", type: "text", text: "待补充...", textEn: "Coming soon..." },
+  photography: {
+    title: "眼睛与记忆", titleEn: "Eyes & Memories", subtitle: "", type: "albums",
+    albums: [
+      { name: "风景", nameEn: "Landscapes", photos: ['dsc_4616','dsc_5220','dsc_4729','dsc_5227','dsc_4798'] },
+      { name: "动物", nameEn: "Animals", photos: ['dsc_4580','dsc_4583','dsc_4988','dsc_4990','dsc_4937'] },
+      { name: "人文", nameEn: "People & Culture", photos: ['dsc_4958','dsc_4743','dsc_4942','dsc_4986'] },
+    ],
+  },
+  aiProjects: {
+    title: "AI Projects", titleEn: "AI Projects", subtitle: "", type: "projects",
+    items: [{
+      name: "Agent Pulse",
+      images: [
+        { src: "/projects/agent-pulse/completed-light.png", alt: "浅色完成状态", altEn: "Light completed state" },
+        { src: "/projects/agent-pulse/compact.png", alt: "紧缩状态", altEn: "Compact state" },
+      ],
+      lead: "macOS 菜单栏 AI 任务进度组件",
+      description: " —— 一个悬浮在桌面角落的 OS 级小组件，实时显示 Codex 与 Claude Code 长任务的耗时、进度与当前动作，并在任务完成、等待批准、失败时提醒你。",
+      descriptionEn: "An OS-level floating progress widget for long-running AI agent tasks on macOS.",
+      url: "https://github.com/xiaorihuang013-prog/agent-pulse",
+    }],
+  },
   computer: {
     title: "PROJECTS.EXE",
     subtitle: "从屏幕进入我的数字作品集",

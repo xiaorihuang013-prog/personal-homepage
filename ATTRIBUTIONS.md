@@ -10,3 +10,12 @@ The current scene uses procedural Three.js furniture and generated textures. The
 - Source: https://sketchfab.com/3d-models/3d-modelling-my-cat-fripouille-0ab14bf98e754f8d90fe1bf1c84ca66c
 - License: CC BY 4.0 — https://creativecommons.org/licenses/by/4.0/
 - User-supplied GLB; scene scale and placement adjusted. Original textures retained.
+
+
+## Bass click audio
+- File: `public/audio/bass-fill.mp3`
+- Title: bass funk riff c - by_CVLTIV8R.wav
+- Author: CVLTIV8R
+- Source: https://freesound.org/people/CVLTIV8R/sounds/799046/
+- License: CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)
+- Unmodified public MP3 preview; source duration 4.660 seconds.

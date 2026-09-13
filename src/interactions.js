@@ -46,7 +46,7 @@ export function setupInteractions({ camera, renderer, interactive, onSelect, onH
     onHover(object);
   }
   function selectObject(object) {
-    if (["chair", "lamp", "floorLamp", "guestbookMarker", "resume", "aiProjects"].includes(object.userData.id)) {
+    if (["bass", "chair", "lamp", "floorLamp", "guestbookMarker", "resume", "aiProjects"].includes(object.userData.id)) {
       focus = null;
       onSelect(object.userData.id);
       return;

@@ -205,7 +205,7 @@ export function createMusicCorner(scene,renderer) {
     positions.needsUpdate=true;part.geometry.computeVertexNormals();
     part.geometry.computeBoundingBox();part.geometry.computeBoundingSphere();
   }
-  bassRig.add(bass);group.add(bassRig);
+  bass.userData.id='bass';bassRig.add(bass);group.add(bassRig);
   const lamp=new THREE.Group();lamp.userData.id='floorLamp';lamp.userData.noHighlight=true;
   lamp.position.set(4.98,0,-1.75);
   lamp.add(mesh(new THREE.CylinderGeometry(.22,.25,.035,64),black,[0,.03,0]));
@@ -215,5 +215,5 @@ export function createMusicCorner(scene,renderer) {
   const light=new THREE.PointLight(0xffbb74,0,4,1.5);light.position.set(-.6,1.96,0);lamp.add(light);
   group.add(lamp);scene.add(group);
   let on=false;
-  return {lamp,toggleFloorLamp(){on=!on;light.intensity=on?4.5:0;shadeMat.emissiveIntensity=on?1.2:0;return on;}};
+  return {lamp,bass,toggleFloorLamp(){on=!on;light.intensity=on?4.5:0;shadeMat.emissiveIntensity=on?1.2:0;return on;}};
 }
